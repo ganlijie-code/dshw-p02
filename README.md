@@ -8,6 +8,7 @@
   <a href="https://pandas.pydata.org/"><img src="https://img.shields.io/badge/Pandas-2.0%2B-150458?logo=pandas&logoColor=white" alt="Pandas"></a>
   <a href="https://matplotlib.org/"><img src="https://img.shields.io/badge/Matplotlib-3.7%2B-11557c?logo=matplotlib&logoColor=white" alt="Matplotlib"></a>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+  <a href="./report.html"><img src="https://img.shields.io/badge/📄%20Report-在线查看-ff6b6b" alt="Report"></a>
 </p>
 
 <p><b>🎓 课程作业</b> | 基于 Python 金融数据栈，完成 A 股数据的 <b>自动采集 → 清洗存储 → 统计描述 → 可视化 → 资产定价建模</b> 全流程</p>
@@ -205,6 +206,6 @@ dshw-p02/
 
 <div align="center">
 
-🔗 [GitHub 仓库](https://github.com/ganlijie-code/dshw-p02.git) &nbsp;|&nbsp; 📧 课程作业 &nbsp;|&nbsp; 📅 2026
+🔗 [GitHub 仓库](https://github.com/ganlijie-code/dshw-p02.git) &nbsp;|&nbsp; 📄 [HTML 报告](./report.html) &nbsp;|&nbsp; 📧 课程作业 &nbsp;|&nbsp; 📅 2026
 
 </div>
