@@ -36,7 +36,7 @@
 
 ## GitHub 仓库
 
-https://github.com/[你的用户名]/dshw-p01
+https://github.com/ganlijie-code/dshw-p02.git
 
 > 请将 `[你的用户名]` 替换为你的 GitHub 账号，并用 GitHub Desktop 同步。
 
