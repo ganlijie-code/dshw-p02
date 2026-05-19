@@ -41,7 +41,7 @@ https://github.com/ganlijie-code/dshw-p02.git
 ## 如何运行
 
 1. 安装依赖：`pip install -r requirements.txt`
-2. 在 Jupyter 中打开项目根目录 `dshw-p01`，**从上到下依次运行**三个 Notebook 的全部单元格
+2. 在 Jupyter 中打开项目根目录 `dshw-p02`，**从上到下依次运行**三个 Notebook 的全部单元格
 3. 每个 Notebook 的代码均为**完整内联实现**（不依赖 `from src import`），可直接执行
 4. 运行 `01_download.ipynb` 需联网下载数据（约 3–5 分钟）
 5. 导出报告：`jupyter nbconvert --to html 03_analysis.ipynb --output report.html`
