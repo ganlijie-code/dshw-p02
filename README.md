@@ -46,19 +46,6 @@ https://github.com/ganlijie-code/dshw-p02.git
 4. 运行 `01_download.ipynb` 需联网下载数据（约 3–5 分钟）
 5. 导出报告：`jupyter nbconvert --to html 03_analysis.ipynb --output report.html`
 
-验证脚本（已有 `data/` 时可快速测试 02、03）：
-
-```bash
-python scripts/verify_notebooks.py
-```
-
-命令行等价流程：
-
-```bash
-python scripts/run_download.py
-python scripts/run_clean.py
-python scripts/generate_figures.py
-```
 
 ## 数据提交说明
 
