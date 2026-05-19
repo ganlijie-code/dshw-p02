@@ -54,7 +54,7 @@ https://github.com/ganlijie-code/dshw-p02.git
 ## 项目结构
 
 ```
-dshw-p01/
+dshw-p02/
 ├── README.md
 ├── report.html
 ├── requirements.txt
