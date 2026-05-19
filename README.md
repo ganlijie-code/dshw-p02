@@ -62,8 +62,6 @@ dshw-p01/
 ├── 01_download.ipynb
 ├── 02_clean.ipynb
 ├── 03_analysis.ipynb
-├── src/              # 核心 Python 模块
-├── scripts/          # 可执行脚本
 ├── data/
 ├── output/
 └── download_log.txt
