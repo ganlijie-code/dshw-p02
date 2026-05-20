@@ -19,65 +19,34 @@
             --jp-border-color1: #e0e0e0;
             --jp-content-font-color0: #000000;
             --jp-content-font-color1: #333333;
-            --primary-color: #4a90e2;
-            --secondary-color: #7b68ee;
-            --accent-color: #ff6b6b;
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-            --border-radius: 12px;
         }
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
             font-family: var(--jp-content-font-family);
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: var(--jp-content-font-color0);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+            background-color: var(--jp-layout-color0);
+            margin: 0;
+            padding: 0;
         }
 
         .notebook-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            padding: 40px;
-            animation: fadeIn 0.6s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 20px;
         }
 
         /* Cell structure */
         .cell {
             display: flex;
             flex-direction: row;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .cell-markdown:hover {
-            transform: translateX(4px);
         }
 
         .cell-prompt {
@@ -85,11 +54,10 @@
             width: var(--jp-cell-prompt-width);
             font-family: var(--jp-code-font-family);
             font-size: 12px;
-            padding: 12px 8px 12px 0;
+            padding: 10px 8px 10px 0;
             text-align: right;
             flex-shrink: 0;
             user-select: none;
-            font-weight: 600;
         }
 
         .cell-content {
@@ -102,7 +70,6 @@
         .input-prompt {
             color: var(--jp-input-prompt-color);
             font-weight: bold;
-            text-shadow: 0 0 8px rgba(48, 127, 193, 0.3);
         }
 
         /* Output prompt styling - Jupyter red/orange */
@@ -113,40 +80,20 @@
 
         /* Code cell input area */
         .input-area {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid transparent;
-            border-radius: var(--border-radius);
-            padding: 16px 20px;
+            background-color: var(--jp-cell-input-bg);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 2px;
+            padding: 8px 12px;
             overflow-x: auto;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .input-area::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-primary);
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-        }
-
-        .input-area:hover {
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-color);
         }
 
         .input-area pre {
             margin: 0;
             font-family: var(--jp-code-font-family);
             font-size: 13px;
-            line-height: 1.6;
+            line-height: 1.4;
             white-space: pre-wrap;
             word-wrap: break-word;
-            color: #2c3e50;
         }
 
         /* Output area */
@@ -158,11 +105,6 @@
             display: flex;
             flex-direction: row;
             margin-top: 4px;
-        }
-
-        /* 导出 HTML 中输出序号栏常为空，但仍占 64px，导致图片相对 input-area 右移一格 */
-        .output-wrapper > .cell-prompt.output-prompt:empty {
-            display: none;
         }
 
         .output-content {
@@ -218,6 +160,28 @@
             overflow-x: auto;
         }
 
+        .output-html table {
+            border-collapse: collapse;
+            font-size: 13px;
+            font-family: var(--jp-content-font-family);
+        }
+
+        .output-html table th,
+        .output-html table td {
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .output-html table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .output-html table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
         /* Error output */
         .output-error {
             background-color: #fff0f0;
@@ -238,12 +202,7 @@
             font-weight: 600;
             margin: 0.67em 0;
             padding-bottom: 0.3em;
-            border-bottom: 3px solid transparent;
-            border-image: var(--gradient-primary) 1;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            border-bottom: 1px solid var(--jp-border-color1);
         }
 
         .markdown-cell h2 {
@@ -251,16 +210,13 @@
             font-weight: 600;
             margin: 0.83em 0;
             padding-bottom: 0.3em;
-            border-bottom: 2px solid transparent;
-            border-image: var(--gradient-secondary) 1;
-            color: var(--secondary-color);
+            border-bottom: 1px solid var(--jp-border-color1);
         }
 
         .markdown-cell h3 {
             font-size: 1.25em;
             font-weight: 600;
             margin: 1em 0;
-            color: var(--primary-color);
         }
 
         .markdown-cell h4 {
@@ -284,27 +240,25 @@
 
         .markdown-cell p {
             margin: 0 0 16px 0;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
         .markdown-cell code {
             font-family: var(--jp-code-font-family);
             font-size: 85%;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            padding: 0.2em 0.6em;
-            border-radius: 6px;
-            border: 1px solid #667eea30;
+            background-color: rgba(27, 31, 35, 0.05);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
         }
 
         .markdown-cell pre {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid transparent;
-            border-radius: var(--border-radius);
+            background-color: var(--jp-cell-input-bg);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 3px;
             padding: 16px;
             overflow-x: auto;
             font-size: 85%;
             line-height: 1.45;
-            box-shadow: var(--shadow-sm);
         }
 
         .markdown-cell pre code {
@@ -312,17 +266,13 @@
             padding: 0;
             border-radius: 0;
             font-size: 100%;
-            border: none;
         }
 
         .markdown-cell blockquote {
             margin: 0 0 16px 0;
-            padding: 12px 20px;
+            padding: 0 1em;
             color: #6a737d;
-            border-left: 4px solid transparent;
-            border-image: var(--gradient-primary) 1;
-            background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            border-left: 4px solid #dfe2e5;
         }
 
         .markdown-cell ul,
@@ -336,56 +286,54 @@
         }
 
         .markdown-cell a {
-            color: var(--primary-color);
+            color: #0366d6;
             text-decoration: none;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .markdown-cell a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
         }
 
         .markdown-cell a:hover {
-            color: var(--secondary-color);
-        }
-
-        .markdown-cell a:hover::after {
-            width: 100%;
+            text-decoration: underline;
         }
 
         .markdown-cell hr {
             border: 0;
-            height: 2px;
-            background: var(--gradient-primary);
+            border-top: 1px solid var(--jp-border-color1);
             margin: 24px 0;
-            border-radius: 2px;
         }
 
         .markdown-cell img {
             max-width: 100%;
             height: auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
+        }
+
+        .markdown-cell table {
+            border-collapse: collapse;
+            margin: 0 0 16px 0;
+        }
+
+        .markdown-cell table th,
+        .markdown-cell table td {
+            border: 1px solid #dfe2e5;
+            padding: 6px 13px;
+        }
+
+        .markdown-cell table th {
+            font-weight: 600;
+            background-color: #f6f8fa;
+        }
+
+        .markdown-cell table tr:nth-child(2n) {
+            background-color: #f6f8fa;
         }
 
         /* Raw cell styling */
         .raw-cell {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid transparent;
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
+            background-color: var(--jp-layout-color1);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 2px;
+            padding: 8px 12px;
             font-family: var(--jp-code-font-family);
             font-size: 13px;
             white-space: pre-wrap;
-            box-shadow: var(--shadow-sm);
         }
 
         /* Empty prompt placeholder */
@@ -394,272 +342,22 @@
         }
 
         .export-footer {
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 2px solid transparent;
-            border-image: var(--gradient-primary) 1;
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--jp-border-color1);
             color: #555;
             font-size: 13px;
             text-align: center;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: var(--border-radius);
-            padding: 20px;
         }
 
         .export-footer a {
-            color: var(--primary-color);
+            color: #0366d6;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
 
         .export-footer a:hover {
-            color: var(--secondary-color);
-            text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+            text-decoration: underline;
         }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 10px;
-            }
-
-            .notebook-container {
-                padding: 20px;
-            }
-
-            .cell {
-                flex-direction: column;
-            }
-
-            .cell-prompt {
-                width: 100%;
-                text-align: left;
-                padding: 8px 0;
-            }
-        }
-    
-        /* --- report.html layout overrides (content unchanged) --- */
-        .cell-content,
-        .markdown-cell {
-            text-align: left;
-        }
-
-        /* 代码单元无 In[] 栏，与 Markdown 的 prompt 栏对齐，避免整体偏左 */
-        .cell-code > .cell-content {
-            margin-left: var(--jp-cell-prompt-width);
-            width: calc(100% - var(--jp-cell-prompt-width));
-        }
-
-        .input-area {
-            width: 100%;
-            margin: 10px 0;
-            text-align: left;
-        }
-
-        .input-area pre {
-            text-align: left;
-            white-space: pre;
-            tab-size: 4;
-        }
-
-        .output-content {
-            text-align: left;
-        }
-
-        .output-stream,
-        .output-result pre,
-        .output-content pre {
-            width: 100%;
-            margin: 10px 0;
-            text-align: left;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #2c3e50;
-            border: 2px solid transparent;
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
-            box-shadow: var(--shadow-sm);
-            tab-size: 4;
-            line-height: 1.65;
-        }
-
-        .output-stderr,
-        .output-error {
-            width: 100%;
-            margin: 10px 0;
-            text-align: left;
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .output-stderr {
-            background: #fef2f2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-            border-left: 4px solid #ef4444;
-        }
-
-        .output-error {
-            background: #fff5f5;
-            color: #7f1d1d;
-            border: 1px solid #fecaca;
-            border-left: 4px solid #dc2626;
-        }
-
-        .markdown-cell pre {
-            width: 100%;
-            margin: 12px 0;
-            text-align: left;
-            font-size: 13px;
-            line-height: 1.65;
-        }
-
-        .raw-cell {
-            width: 100%;
-            margin: 10px 0;
-            text-align: left;
-            line-height: 1.65;
-        }
-
-        /* Tables & images — centered */
-        .output-result:has(.output-image),
-        .output-result:has(.output-html) {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .output-image {
-            margin: 16px auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-        }
-
-        .markdown-cell img {
-            display: block;
-            margin: 16px auto;
-        }
-
-
-        /* ========== 统一表格（参考 03_01：卡片、浅灰表头、左对齐、首列蓝色）========== */
-        .notebook-container table {
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 24px auto;
-            width: 100%;
-            max-width: 100%;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            font-size: 14px;
-            font-family: var(--jp-content-font-family);
-            background: white;
-            border: none !important;
-        }
-
-        .notebook-container table thead tr {
-            background: #f1f5f9;
-            color: var(--jp-content-font-color0);
-        }
-
-        .notebook-container table.assignment-meta-table thead tr {
-            background: var(--gradient-primary);
-            color: #ffffff;
-        }
-
-        .notebook-container table th,
-        .notebook-container table td {
-            border: none !important;
-            padding: 14px 18px;
-            text-align: left !important;
-            transition: background 0.2s ease;
-            vertical-align: middle;
-            line-height: 1.6;
-        }
-
-        .notebook-container table thead th,
-        .notebook-container table thead td {
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: none;
-            letter-spacing: 0;
-            color: #2d3748 !important;
-            border-bottom: 1px solid #e2e8f0 !important;
-            background: #f1f5f9;
-        }
-
-        .notebook-container table.assignment-meta-table thead th,
-        .notebook-container table.assignment-meta-table thead td {
-            color: #ffffff !important;
-            background: transparent;
-        }
-
-        .notebook-container table thead th::after {
-            display: none;
-        }
-
-        .notebook-container table tbody th {
-            background: white;
-            color: var(--primary-color) !important;
-            font-weight: 600;
-            border-bottom: 1px solid #e8ecf1 !important;
-        }
-
-        .notebook-container table tbody td {
-            color: #2d3748;
-            border-bottom: 1px solid #e8ecf1 !important;
-            background: white;
-        }
-
-        .notebook-container table tbody tr:last-child td,
-        .notebook-container table tbody tr:last-child th {
-            border-bottom: none !important;
-        }
-
-        .notebook-container table tbody tr:hover td,
-        .notebook-container table tbody tr:hover th {
-            background: #e8f4f8 !important;
-        }
-
-        .notebook-container table.assignment-meta-table tbody tr:hover td,
-        .notebook-container table.assignment-meta-table tbody tr:hover th {
-            background: #eef2ff !important;
-        }
-
-        .notebook-container table tbody td:first-child {
-            font-weight: 600;
-            color: var(--primary-color) !important;
-        }
-
-        .notebook-container table .blank {
-            background: #f1f5f9;
-        }
-
-        .notebook-container table.corr-matrix-table {
-            width: 100%;
-            max-width: 100%;
-            table-layout: fixed;
-        }
-
-        .notebook-container table.corr-matrix-table th,
-        .notebook-container table.corr-matrix-table td {
-            text-align: center !important;
-            padding: 10px 8px;
-            word-break: break-word;
-        }
-
-        .cell-code {
-            margin-bottom: 24px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .cell-code:last-child {
-            border-bottom: none;
-        }
-
     </style>
 </head>
 <body>
@@ -671,6 +369,7 @@
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [2]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>from pathlib import Path
 from datetime import datetime
@@ -1034,6 +733,7 @@ print("分析函数已定义")</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [3]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>desc = descriptive_stats(long_df)
 display(desc.style.format({'年化均值':'{:.2%}','年化波动率':'{:.2%}','最大回撤':'{:.2%}'}))</pre></div>
@@ -1043,119 +743,119 @@ display(desc.style.format({'年化均值':'{:.2%}','年化波动率':'{:.2%}','�
                         <div class="output-content">
                             <div class="output-html"><style type="text/css">
 </style>
-<table id="T_35d8f">
+<table id="T_97524">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_35d8f_level0_col0" class="col_heading level0 col0" >股票</th>
-      <th id="T_35d8f_level0_col1" class="col_heading level0 col1" >行业</th>
-      <th id="T_35d8f_level0_col2" class="col_heading level0 col2" >年化均值</th>
-      <th id="T_35d8f_level0_col3" class="col_heading level0 col3" >年化波动率</th>
-      <th id="T_35d8f_level0_col4" class="col_heading level0 col4" >偏度</th>
-      <th id="T_35d8f_level0_col5" class="col_heading level0 col5" >峰度</th>
-      <th id="T_35d8f_level0_col6" class="col_heading level0 col6" >最大回撤</th>
+      <th id="T_97524_level0_col0" class="col_heading level0 col0" >股票</th>
+      <th id="T_97524_level0_col1" class="col_heading level0 col1" >行业</th>
+      <th id="T_97524_level0_col2" class="col_heading level0 col2" >年化均值</th>
+      <th id="T_97524_level0_col3" class="col_heading level0 col3" >年化波动率</th>
+      <th id="T_97524_level0_col4" class="col_heading level0 col4" >偏度</th>
+      <th id="T_97524_level0_col5" class="col_heading level0 col5" >峰度</th>
+      <th id="T_97524_level0_col6" class="col_heading level0 col6" >最大回撤</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_35d8f_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_35d8f_row0_col0" class="data row0 col0" >工商银行</td>
-      <td id="T_35d8f_row0_col1" class="data row0 col1" >银行</td>
-      <td id="T_35d8f_row0_col2" class="data row0 col2" >5.38%</td>
-      <td id="T_35d8f_row0_col3" class="data row0 col3" >10.20%</td>
-      <td id="T_35d8f_row0_col4" class="data row0 col4" >0.492012</td>
-      <td id="T_35d8f_row0_col5" class="data row0 col5" >6.513862</td>
-      <td id="T_35d8f_row0_col6" class="data row0 col6" >-14.39%</td>
+      <th id="T_97524_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_97524_row0_col0" class="data row0 col0" >工商银行</td>
+      <td id="T_97524_row0_col1" class="data row0 col1" >银行</td>
+      <td id="T_97524_row0_col2" class="data row0 col2" >5.38%</td>
+      <td id="T_97524_row0_col3" class="data row0 col3" >10.20%</td>
+      <td id="T_97524_row0_col4" class="data row0 col4" >0.492012</td>
+      <td id="T_97524_row0_col5" class="data row0 col5" >6.513862</td>
+      <td id="T_97524_row0_col6" class="data row0 col6" >-14.39%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_35d8f_row1_col0" class="data row1 col0" >招商银行</td>
-      <td id="T_35d8f_row1_col1" class="data row1 col1" >银行</td>
-      <td id="T_35d8f_row1_col2" class="data row1 col2" >3.20%</td>
-      <td id="T_35d8f_row1_col3" class="data row1 col3" >23.19%</td>
-      <td id="T_35d8f_row1_col4" class="data row1 col4" >0.261383</td>
-      <td id="T_35d8f_row1_col5" class="data row1 col5" >3.549097</td>
-      <td id="T_35d8f_row1_col6" class="data row1 col6" >-48.42%</td>
+      <th id="T_97524_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_97524_row1_col0" class="data row1 col0" >招商银行</td>
+      <td id="T_97524_row1_col1" class="data row1 col1" >银行</td>
+      <td id="T_97524_row1_col2" class="data row1 col2" >3.20%</td>
+      <td id="T_97524_row1_col3" class="data row1 col3" >23.19%</td>
+      <td id="T_97524_row1_col4" class="data row1 col4" >0.261383</td>
+      <td id="T_97524_row1_col5" class="data row1 col5" >3.549097</td>
+      <td id="T_97524_row1_col6" class="data row1 col6" >-48.42%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row2" class="row_heading level0 row2" >2</th>
-      <td id="T_35d8f_row2_col0" class="data row2 col0" >比亚迪</td>
-      <td id="T_35d8f_row2_col1" class="data row2 col1" >汽车</td>
-      <td id="T_35d8f_row2_col2" class="data row2 col2" >29.23%</td>
-      <td id="T_35d8f_row2_col3" class="data row2 col3" >42.68%</td>
-      <td id="T_35d8f_row2_col4" class="data row2 col4" >0.309921</td>
-      <td id="T_35d8f_row2_col5" class="data row2 col5" >2.105503</td>
-      <td id="T_35d8f_row2_col6" class="data row2 col6" >-55.73%</td>
+      <th id="T_97524_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_97524_row2_col0" class="data row2 col0" >比亚迪</td>
+      <td id="T_97524_row2_col1" class="data row2 col1" >汽车</td>
+      <td id="T_97524_row2_col2" class="data row2 col2" >29.23%</td>
+      <td id="T_97524_row2_col3" class="data row2 col3" >42.68%</td>
+      <td id="T_97524_row2_col4" class="data row2 col4" >0.309921</td>
+      <td id="T_97524_row2_col5" class="data row2 col5" >2.105503</td>
+      <td id="T_97524_row2_col6" class="data row2 col6" >-55.73%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row3" class="row_heading level0 row3" >3</th>
-      <td id="T_35d8f_row3_col0" class="data row3 col0" >长城汽车</td>
-      <td id="T_35d8f_row3_col1" class="data row3 col1" >汽车</td>
-      <td id="T_35d8f_row3_col2" class="data row3 col2" >11.40%</td>
-      <td id="T_35d8f_row3_col3" class="data row3 col3" >40.81%</td>
-      <td id="T_35d8f_row3_col4" class="data row3 col4" >0.468333</td>
-      <td id="T_35d8f_row3_col5" class="data row3 col5" >2.312345</td>
-      <td id="T_35d8f_row3_col6" class="data row3 col6" >-75.42%</td>
+      <th id="T_97524_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_97524_row3_col0" class="data row3 col0" >长城汽车</td>
+      <td id="T_97524_row3_col1" class="data row3 col1" >汽车</td>
+      <td id="T_97524_row3_col2" class="data row3 col2" >11.40%</td>
+      <td id="T_97524_row3_col3" class="data row3 col3" >40.81%</td>
+      <td id="T_97524_row3_col4" class="data row3 col4" >0.468333</td>
+      <td id="T_97524_row3_col5" class="data row3 col5" >2.312345</td>
+      <td id="T_97524_row3_col6" class="data row3 col6" >-75.42%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row4" class="row_heading level0 row4" >4</th>
-      <td id="T_35d8f_row4_col0" class="data row4 col0" >万科A</td>
-      <td id="T_35d8f_row4_col1" class="data row4 col1" >房地产</td>
-      <td id="T_35d8f_row4_col2" class="data row4 col2" >-17.85%</td>
-      <td id="T_35d8f_row4_col3" class="data row4 col3" >23.01%</td>
-      <td id="T_35d8f_row4_col4" class="data row4 col4" >0.585680</td>
-      <td id="T_35d8f_row4_col5" class="data row4 col5" >3.783620</td>
-      <td id="T_35d8f_row4_col6" class="data row4 col6" >-71.73%</td>
+      <th id="T_97524_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_97524_row4_col0" class="data row4 col0" >万科A</td>
+      <td id="T_97524_row4_col1" class="data row4 col1" >房地产</td>
+      <td id="T_97524_row4_col2" class="data row4 col2" >-17.85%</td>
+      <td id="T_97524_row4_col3" class="data row4 col3" >23.01%</td>
+      <td id="T_97524_row4_col4" class="data row4 col4" >0.585680</td>
+      <td id="T_97524_row4_col5" class="data row4 col5" >3.783620</td>
+      <td id="T_97524_row4_col6" class="data row4 col6" >-71.73%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row5" class="row_heading level0 row5" >5</th>
-      <td id="T_35d8f_row5_col0" class="data row5 col0" >贵州茅台</td>
-      <td id="T_35d8f_row5_col1" class="data row5 col1" >白酒</td>
-      <td id="T_35d8f_row5_col2" class="data row5 col2" >4.99%</td>
-      <td id="T_35d8f_row5_col3" class="data row5 col3" >25.58%</td>
-      <td id="T_35d8f_row5_col4" class="data row5 col4" >0.199292</td>
-      <td id="T_35d8f_row5_col5" class="data row5 col5" >3.523436</td>
-      <td id="T_35d8f_row5_col6" class="data row5 col6" >-51.12%</td>
+      <th id="T_97524_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_97524_row5_col0" class="data row5 col0" >贵州茅台</td>
+      <td id="T_97524_row5_col1" class="data row5 col1" >白酒</td>
+      <td id="T_97524_row5_col2" class="data row5 col2" >4.99%</td>
+      <td id="T_97524_row5_col3" class="data row5 col3" >25.58%</td>
+      <td id="T_97524_row5_col4" class="data row5 col4" >0.199292</td>
+      <td id="T_97524_row5_col5" class="data row5 col5" >3.523436</td>
+      <td id="T_97524_row5_col6" class="data row5 col6" >-51.12%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row6" class="row_heading level0 row6" >6</th>
-      <td id="T_35d8f_row6_col0" class="data row6 col0" >五粮液</td>
-      <td id="T_35d8f_row6_col1" class="data row6 col1" >白酒</td>
-      <td id="T_35d8f_row6_col2" class="data row6 col2" >-2.80%</td>
-      <td id="T_35d8f_row6_col3" class="data row6 col3" >31.59%</td>
-      <td id="T_35d8f_row6_col4" class="data row6 col4" >0.008197</td>
-      <td id="T_35d8f_row6_col5" class="data row6 col5" >3.383209</td>
-      <td id="T_35d8f_row6_col6" class="data row6 col6" >-73.49%</td>
+      <th id="T_97524_level0_row6" class="row_heading level0 row6" >6</th>
+      <td id="T_97524_row6_col0" class="data row6 col0" >五粮液</td>
+      <td id="T_97524_row6_col1" class="data row6 col1" >白酒</td>
+      <td id="T_97524_row6_col2" class="data row6 col2" >-2.80%</td>
+      <td id="T_97524_row6_col3" class="data row6 col3" >31.59%</td>
+      <td id="T_97524_row6_col4" class="data row6 col4" >0.008197</td>
+      <td id="T_97524_row6_col5" class="data row6 col5" >3.383209</td>
+      <td id="T_97524_row6_col6" class="data row6 col6" >-73.49%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row7" class="row_heading level0 row7" >7</th>
-      <td id="T_35d8f_row7_col0" class="data row7 col0" >中国石油</td>
-      <td id="T_35d8f_row7_col1" class="data row7 col1" >能源</td>
-      <td id="T_35d8f_row7_col2" class="data row7 col2" >10.43%</td>
-      <td id="T_35d8f_row7_col3" class="data row7 col3" >19.36%</td>
-      <td id="T_35d8f_row7_col4" class="data row7 col4" >0.247030</td>
-      <td id="T_35d8f_row7_col5" class="data row7 col5" >5.476218</td>
-      <td id="T_35d8f_row7_col6" class="data row7 col6" >-22.99%</td>
+      <th id="T_97524_level0_row7" class="row_heading level0 row7" >7</th>
+      <td id="T_97524_row7_col0" class="data row7 col0" >中国石油</td>
+      <td id="T_97524_row7_col1" class="data row7 col1" >能源</td>
+      <td id="T_97524_row7_col2" class="data row7 col2" >10.43%</td>
+      <td id="T_97524_row7_col3" class="data row7 col3" >19.36%</td>
+      <td id="T_97524_row7_col4" class="data row7 col4" >0.247030</td>
+      <td id="T_97524_row7_col5" class="data row7 col5" >5.476218</td>
+      <td id="T_97524_row7_col6" class="data row7 col6" >-22.99%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row8" class="row_heading level0 row8" >8</th>
-      <td id="T_35d8f_row8_col0" class="data row8 col0" >中国移动</td>
-      <td id="T_35d8f_row8_col1" class="data row8 col1" >通讯</td>
-      <td id="T_35d8f_row8_col2" class="data row8 col2" >17.03%</td>
-      <td id="T_35d8f_row8_col3" class="data row8 col3" >23.48%</td>
-      <td id="T_35d8f_row8_col4" class="data row8 col4" >0.648783</td>
-      <td id="T_35d8f_row8_col5" class="data row8 col5" >5.595191</td>
-      <td id="T_35d8f_row8_col6" class="data row8 col6" >-17.04%</td>
+      <th id="T_97524_level0_row8" class="row_heading level0 row8" >8</th>
+      <td id="T_97524_row8_col0" class="data row8 col0" >中国移动</td>
+      <td id="T_97524_row8_col1" class="data row8 col1" >通讯</td>
+      <td id="T_97524_row8_col2" class="data row8 col2" >17.03%</td>
+      <td id="T_97524_row8_col3" class="data row8 col3" >23.48%</td>
+      <td id="T_97524_row8_col4" class="data row8 col4" >0.648783</td>
+      <td id="T_97524_row8_col5" class="data row8 col5" >5.595191</td>
+      <td id="T_97524_row8_col6" class="data row8 col6" >-17.04%</td>
     </tr>
     <tr>
-      <th id="T_35d8f_level0_row9" class="row_heading level0 row9" >9</th>
-      <td id="T_35d8f_row9_col0" class="data row9 col0" >顺丰控股</td>
-      <td id="T_35d8f_row9_col1" class="data row9 col1" >物流</td>
-      <td id="T_35d8f_row9_col2" class="data row9 col2" >0.88%</td>
-      <td id="T_35d8f_row9_col3" class="data row9 col3" >30.74%</td>
-      <td id="T_35d8f_row9_col4" class="data row9 col4" >0.403022</td>
-      <td id="T_35d8f_row9_col5" class="data row9 col5" >3.781089</td>
-      <td id="T_35d8f_row9_col6" class="data row9 col6" >-74.10%</td>
+      <th id="T_97524_level0_row9" class="row_heading level0 row9" >9</th>
+      <td id="T_97524_row9_col0" class="data row9 col0" >顺丰控股</td>
+      <td id="T_97524_row9_col1" class="data row9 col1" >物流</td>
+      <td id="T_97524_row9_col2" class="data row9 col2" >0.88%</td>
+      <td id="T_97524_row9_col3" class="data row9 col3" >30.74%</td>
+      <td id="T_97524_row9_col4" class="data row9 col4" >0.403022</td>
+      <td id="T_97524_row9_col5" class="data row9 col5" >3.781089</td>
+      <td id="T_97524_row9_col6" class="data row9 col6" >-74.10%</td>
     </tr>
   </tbody>
 </table>
@@ -1172,6 +872,7 @@ display(desc.style.format({'年化均值':'{:.2%}','年化波动率':'{:.2%}','�
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [4]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>idx = load_index_frame('000300')
 base = pd.Timestamp('2020-01-01')
@@ -1216,6 +917,7 @@ plt.show()</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [5]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>fig, axes = plt.subplots(2, 5, figsize=(14, 6))
 for i, item in enumerate(STOCK_LIST):
@@ -1256,6 +958,7 @@ plt.show()</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [6]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>order = sorted(STOCK_LIST, key=lambda x: (x['industry'], x['code']))
 codes = [x['code'] for x in order]
@@ -1293,6 +996,7 @@ plt.show()</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [7]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>idx2 = load_index_frame('000300')
 idx2['ret'] = np.log(idx2['close']/idx2['close'].shift(1))
@@ -1346,6 +1050,7 @@ plt.show()</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [8]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>fin = pd.read_csv(DIRS['finance'] / 'finance_ratios.csv', dtype={'code': str})
 fin['code'] = fin['code'].str.zfill(6)
@@ -1495,6 +1200,7 @@ plt.show()
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [9]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>capm = capm_regression(long_df)
 display(capm)</pre></div>
@@ -1661,6 +1367,7 @@ display(capm)</pre></div>
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [10]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>fig, ax = plt.subplots(figsize=(9, 7))
 
@@ -1716,7 +1423,7 @@ plt.show()
         <div class="cell cell-markdown">
             <div class="cell-prompt prompt-empty">&nbsp;</div>
             <div class="cell-content">
-                <div class="markdown-cell"><h3>CAPM 讨论</h3><br>1. Beta>1 多为汽车等周期股；银行、运营商偏低。从结果表中可见，比亚迪、长城汽车等周期性行业的 Beta 显著大于 1，表明其对市场波动的敏感度高于平均水平。这与"周期性 vs 防御性"分类完全吻合——汽车和能源板块随经济景气度波动剧烈；而银行、白酒、通讯等防御性行业的 Beta 接近或低于 1，在市场下跌时相对抗跌。<br>2. Alpha 显著意味着相对市场有超额收益/亏损。若某只股票的 α 显著异于零（通常以 p < 0.05 为标准），意味着该股票在剔除系统性风险后仍存在超额收益（α > 0）或超额亏损（α < 0）。Alpha 显著为正通常暗示市场定价效率不足，或该股票具有未被市场充分识别的独特价值来源（如品牌护城河、技术壁垒）。在实际投资中，正的显著 Alpha 是主动管理型基金追求的核心目标。<br>3. R² 衡量个股收益率波动中被市场因子解释的比例。R² 高的股票（如银行板块）通常市值大、机构持仓高、信息透明，价格行为更接近市场整体；R² 低的股票（如比亚迪、长城汽车）则受行业特有因素（如新能源政策、产销数据、技术突破）驱动更大，市场因子对其解释力有限，这意味着需要引入更多行业或风格因子才能完整建模。</div>
+                <div class="markdown-cell"><h3>CAPM 讨论</h3><br><br>1. 哪些股票 $\hat{\beta}>1$？行业属性与周期—防御分类是否吻合？  <br>答：  <br>$\hat{\beta}$ 大于 1 的样本股共三只：比亚迪（1.26，汽车）、五粮液（1.17，白酒）以及长城汽车（1.05，汽车）。从行业分布看，汽车与白酒板块构成了高 Beta 阵营。这一结果与经典的“周期性 vs 防御性”分类部分吻合、部分背离。汽车属于典型的周期性行业，盈利与宏观经济景气度高度相关，大盘向好时需求扩张、弹性放大，Beta 大于 1 完全符合理论预期。白酒板块则较为复杂：五粮液呈现高 Beta，意味着其在样本期内对市场波动的放大效应甚至强于周期股；而同属白酒的贵州茅台 Beta 仅为 0.89，反而表现出一定的防御特征。这种内部分化说明，高端白酒在近年来已非纯粹的防御品种——机构重仓、金融属性与批价周期使其波动被显著放大，尤其是五粮液这类次高端龙头，在行业库存周期与资金博弈中表现出更强的弹性。因此，不能简单以“消费即防御”一概而论，需结合个股的市场结构与企业周期综合判断。<br><br>2. $\hat{\alpha}$ 是否显著异于零？Alpha 显著意味着什么？  <br>答：  <br>在 5% 的显著性水平下，仅万科 A 的 Alpha 显著异于零（$\hat{\alpha}=-0.0008$，$p=0.0117$）；若放宽至 10% 水平，比亚迪（$\hat{\alpha}=0.0011$，$p=0.064$）可视为边缘显著的正 Alpha。其余八只股票的 Alpha 均未通过显著性检验，说明在扣除市场因子贡献后，不存在统计上可识别的超额收益或亏损。Alpha 显著的经济含义在于：它代表经系统性风险调整后的“真正超额收益”。若 Alpha 显著为正，意味着该股票在相同市场风险暴露下，仍能持续创造跑赢市场的回报，可能暗示市场定价效率不足、存在尚未被挖掘的价值，或公司具备独特的护城河与成长动能。反之，万科 A 的显著负 Alpha 则表明，即便控制了大盘波动，该股在样本期内仍系统性跑输市场，这很难用贝塔风险解释，更多反映的是房地产行业的结构性下行、信用风险溢价上升以及流动性折价——市场对其基本面恶化的定价超越了大盘因子的解释范围。<br><br>3. $R^2$ 最高与最低的股票分别是哪只？如何解释这一差异？    <br>答：  <br>$R^2$ 最高的是五粮液（0.484），其次是贵州茅台（0.432）；最低的是中国移动（0.044），其次为工商银行（0.065）。<br>这一差异的核心在于市场因子对个股收益的解释力强弱，而解释力的背后是公司特质风险与市场风险的相对比重：  <br>- 高 $R^2$（五粮液、茅台）：二者均属大盘核心资产，机构持仓集中、信息透明度高、交易行为与市场情绪高度同步。在 A 股市场，白酒龙头长期作为“抱团”标的，其价格发现过程与沪深 300 的驱动逻辑（宏观流动性、北向资金、消费复苏预期）高度重叠，因此市场单因子即可解释接近一半的日收益波动。<br>- 低 $R^2$（中国移动、工商银行）：工商银行 Beta 仅 0.14，几乎与市场脱钩，其股价波动更多受银行业特有政策（息差调控、隐性不良暴露、分红率预期）主导，而非大盘系统性风险；中国移动虽为巨无霸，但高股息防御定位使其价格行为受利率预期与独立资金配置逻辑驱动，与沪深 300 的联动性被显著削弱。低 $R^2$ 意味着 CAPM 单因子模型对这类股票“失灵”，需要引入行业、风格乃至跨市场因子才能完整刻画其收益结构。  <br>- 中等 $R^2$（比亚迪 0.31、长城汽车 0.23）：新能源赛道受产业政策、技术路线迭代、月度产销数据等行业特有风险驱动较大，市场贝塔仅能解释部分波动，剩余收益变异需由行业因子补充。  <br>综上，$R^2$ 的离散分布揭示了一个重要事实：A 股并非单一市场，不同板块的风险来源与定价逻辑差异显著，简单的市场模型对核心蓝筹尚有解释力，但对政策敏感型与低波动红利型资产则远远不够。</div>
             </div>
         </div>
         <div class="cell cell-markdown">
@@ -1726,6 +1433,7 @@ plt.show()
             </div>
         </div>
         <div class="cell cell-code">
+            <div class="cell-prompt input-prompt">In [11]:</div>
             <div class="cell-content">
                 <div class="input-area"><pre>display(monthly_macro_regression(long_df, 'm2'))</pre></div>
                 <div class="output-area">
@@ -1838,7 +1546,7 @@ plt.show()
         <div class="cell cell-markdown">
             <div class="cell-prompt prompt-empty">&nbsp;</div>
             <div class="cell-content">
-                <div class="markdown-cell"><h3>结论</h3><br>这组数据来自GARCH-M模型的估计结果，其中gamma系数衡量的是条件波动率对预期日收益率的边际影响，也就是经典金融理论中"高风险高回报"关系在个股层面的具体表现。gamma_p则是对应系数的p值，用于判断该影响是否在统计上显著。整体来看，这十只股票的gamma估计值呈现出耐人寻味的行业分化与符号割裂，且绝大多数未能通过常规的统计显著性检验。<br><br>一、gamma系数的总体格局：符号的割裂  <br>将十只股票的gamma系数按方向归类，可以发现一个鲜明的特征：消费、能源与通讯板块的gamma为正，而银行与部分成长制造板块的gamma为负。<br><br>正值阵营中，贵州茅台的gamma为0.004832，五粮液更是达到0.007081，是全部样本中最高。中国移动的gamma为0.006172，万科A为0.003282，中国石油和长城汽车也分别录得0.001942和0.001898的正值。这意味着对于这些股票，当条件波动率上升时，模型的估计结果显示其预期收益有正向的补偿关系——至少在方向上符合传统风险溢价理论的预测。<br><br>然而，负值阵营同样不容忽视。比亚迪的gamma为-0.005430，招商银行和工商银行分别为-0.003847和-0.001521。负的gamma系数意味着一个反直觉的现象：这些股票的波动率越高，其预期日收益反而越低。这与标准的资本资产定价逻辑背道而驰，却在中国A股市场的特定板块中得到了数据支持。<br><br>二、分行业的经济解读  <br>白酒板块呈现出最强的正向gamma信号。五粮液和茅台的gamma分别为0.007081和0.004832，虽然p值显示并不显著，但方向高度一致。从经济逻辑看，高端白酒的波动往往与渠道库存周期、批价波动和季度业绩预期差相关。当波动率放大时——例如旺季动销数据超预期或渠道改革消息冲击——市场倾向于给予正向定价，因为这些波动背后通常隐藏着盈利能力的再确认。换言之，白酒的"风险"更像是"好消息的波动"，市场愿意为之支付溢价。<br><br>中国移动的gamma为0.006172，p值0.093756，是全部样本中最接近统计显著的标的，在10%的显著性水平下可以认为存在边缘显著的正向风险收益关系。这与中国移动近年来作为高股息防御资产的定位高度相关。其波动率上升通常不是由基本面恶化驱动，而是由宏观利率预期或大盘流动性冲击引发；而当波动平息后，稳定的现金流和分红承诺使得收益回归为正。因此，投资者在中国移动上经历的短期波动，确实获得了后续的收益补偿。<br><br>能源板块的中石油gamma为正值0.001942，但p值0.576，远不显著。这与国际油价的高度外生性有关——中石油的波动很大程度上由全球地缘政治和OPEC政策驱动，这些因素对中国境内投资者的预期收益传导存在时滞和噪音，因此风险收益关系被模糊了。<br><br>房地产板块的万科A录得0.003282的正值gamma，同样不显著。这一结果需要谨慎解读。万科在样本期内处于趋势性下跌通道，其波动率放大往往伴随利空消息（债务展期、销售下滑），而模型估计出正向gamma，可能更多是统计上的伪相关，或者是下跌过程中偶发性的技术性反弹所致。考虑到地产行业的结构性衰退，不宜据此认为"买入万科的高波动"是一种有效的风险补偿策略。<br><br>银行板块的gamma为负，是全部样本中最值得警惕的发现。工商银行和招商银行的gamma分别为-0.001521和-0.003847，意味着波动率上升时预期收益反而下降。这背后的经济机制可能是信息不对称与流动性陷阱：银行股的高波动通常由隐性不良暴露、息差收窄等政策利空触发，而这类利空往往具有持续性（并非一次性冲击），因此高波动之后接的不是补偿性上涨，而是进一步的估值下修。换句话说，银行股的波动不是"可定价的风险"，而是"基本面恶化的信号"。<br><br>比亚迪的gamma为-0.005430，是负值中绝对值最大的，p值为0.501。作为新能源汽车的绝对龙头，比亚迪的高波动主要来自产业政策的突变、竞争格局的恶化或技术路线的博弈。这些波动源具有事件驱动型特征——例如价格战升级时，高波动直接侵蚀利润预期，导致"波动即损失"而非"波动即补偿"。这再次说明，对于处于激烈产业竞争中的成长型股票，传统的风险收益权衡框架可能部分失效。<br><br>顺丰控股的gamma几乎为零（0.000485），p值高达0.938，是全样本中最不显著的。这暗示快递物流行业的日收益与波动率之间几乎不存在线性关系，股价的日内波动更多是随机噪音或大盘Beta驱动，缺乏独立的风险定价逻辑。<br><br>三、统计显著性的冷思考  <br>从p值来看，全部十只股票的gamma系数在5%的显著性水平下均未能通过检验，仅有中国移动在10%水平下边缘显著。这一结果本身具有重要的方法论启示：<br><br>日频数据中的风险收益关系极其微弱。经典理论假设投资者在每个交易日都要求波动率补偿，但现实中，这种补偿的日度表现被大量的微观结构噪音（订单流冲击、算法交易、散户情绪）所淹没。风险溢价的存在与否，可能需要在周度、月度甚至更长的时间尺度上才能被有效识别。<br><br>此外，GARCH-M模型假设风险收益关系是线性的、对称的，但A股市场可能存在非线性的非对称效应——例如下跌波动对收益的负面影响大于上涨波动的正面影响。在这种情形下，单一的gamma系数可能无法捕捉真实的市场动态。<br><br>四、对投资实践的启示   <br>这组数据揭示了几个深层规律：  <br><br>第一，不同行业的"风险性质"截然不同。白酒和通讯的波动可能是"可承受的风险"，因为背后有盈利和现金流的支撑；而银行和新能源的波动则可能是"危险信号"，高波动往往对应基本面利空而非随机扰动。<br><br>第二，A股市场的日度风险定价效率有限。如果风险收益关系足够强、足够稳定，p值应该显著低于0.05。当前的结果说明，在日度层面试图通过"买入高波动"来获取超额收益，缺乏坚实的统计基础。<br><br>第三，防御性资产的gamma信号反而更强。中国移动接近显著的正值gamma，与工商银行不显著的负值gamma形成对比。这暗示在市场不确定性上升时，资金更愿意为高股息、低估值、现金流确定的防御性资产支付波动溢价，而对周期性资产的波动则要求折价。<br><br>五、结语  <br>这组gamma系数像是一面棱镜，将"高风险高回报"这一简单命题分解为复杂的行业光谱。它告诉我们：风险本身并不可怕，可怕的是风险的来源和性质。白酒的波动来自供需错配，通讯的波动来自利率预期，银行的波动来自资产质量担忧，新能源的波动来自产业博弈——同样是高波动，市场的定价态度截然不同。对于理性投资者而言，识别自己持有的究竟是"被定价的风险"还是"被惩罚的波动"，远比纠结于波动的绝对数值更为重要。<br><br></div>
+                <div class="markdown-cell"><h3>讨论</h3><br><br>不同行业对该宏观指标的敏感性有何差异？背后的经济逻辑是什么？<br><br>答：  <br>从GARCH-M模型的估计结果来看，这里的gamma系数反映的是条件波动率对预期日收益率的边际影响，也就是“高风险是否带来高回报”在个股层面的具体映射。十只样本股的gamma估计值呈现出鲜明的行业分化与符号割裂，且绝大多数未通过常规的统计显著性检验。以下从行业维度拆解其敏感性差异及背后的经济逻辑。<br><br>一、总体格局：符号的割裂<br>将gamma系数按方向归类，消费、能源与通讯板块普遍为正，而银行与部分成长制造板块为负。正值意味着波动率上升时，模型估计的预期收益有正向补偿；负值则意味着波动越高，预期收益反而越低，这与标准资本资产定价逻辑背道而驰，却在A股特定板块中得到了数据支持。<br><br>二、分行业的经济解读<br>1. 白酒：正向gamma背后的“好消息波动”<br><br>贵州茅台与五粮液的gamma分别为0.004832和0.007081，是全部样本中正向信号最强的组合。尽管p值显示并不显著，但方向高度一致。高端白酒的波动往往源于渠道库存周期、批价波动或季度业绩预期差。当波动率放大时——例如旺季动销数据超预期或渠道改革消息冲击——市场倾向于给予正向定价，因为这些波动背后通常隐藏着盈利能力的再确认。换言之，白酒的“风险”更像是“好消息的波动”，市场愿意为之支付溢价。<br><br>2. 通讯：防御性资产的波动补偿<br><br>中国移动的gamma为0.006172，p值0.093756，是全部样本中最接近统计显著的标的，在10%的显著性水平下可视为边缘显著的正向风险收益关系。这与其作为高股息防御资产的定位高度相关。其波动率上升通常并非由基本面恶化驱动，而是宏观利率预期或大盘流动性冲击所致；当波动平息后，稳定的现金流和分红承诺使得收益回归为正。因此，投资者在中国移动上经历的短期波动，确实获得了后续的收益补偿。<br><br>3. 银行：负向gamma与“基本面恶化信号”<br><br>工商银行与招商银行的gamma分别为-0.001521和-0.003847，是样本中最值得警惕的发现。银行股的高波动通常由隐性不良暴露、息差收窄等政策利空触发，而这类利空往往具有持续性，并非一次性冲击。因此高波动之后接的不是补偿性上涨，而是进一步的估值下修。银行股的波动不是“可定价的风险”，而是“基本面恶化的信号”，导致风险收益关系呈现反常的负向。<br><br>4. 新能源汽车：产业博弈下的“波动即损失”<br><br>比亚迪的gamma为-0.005430，是负值中绝对值最大的。作为新能源汽车龙头，其高波动主要来自产业政策突变、竞争格局恶化或技术路线博弈，具有强烈的事件驱动特征。例如价格战升级时，高波动直接侵蚀利润预期，导致“波动即损失”而非“波动即补偿”。这说明对于处于激烈产业竞争中的成长型股票，传统的风险收益权衡框架可能部分失效。长城汽车虽录得小幅正值，但p值高达0.837，信号同样微弱，整体汽车板块缺乏一致的风险定价逻辑。<br><br>5. 能源与房地产：外生性与伪相关<br><br>中国石油的gamma为正值0.001942，但p值0.576，远不显著。其波动很大程度上由全球地缘政治和OPEC政策驱动，这些因素对中国境内投资者的预期收益传导存在时滞和噪音，风险收益关系被外部噪音模糊。<br><br>万科A录得0.003282的正值gamma，同样不显著。考虑到样本期内房地产行业处于结构性调整阶段，其波动率放大往往伴随债务展期、销售下滑等利空消息，模型估计出的正向gamma可能更多是统计上的伪相关，或下跌过程中偶发性的技术性反弹所致，不宜据此认为“买入地产高波动”是有效的风险补偿策略。<br><br>6. 物流：风险定价的空白  <br><br>顺丰控股的gamma几乎为零（0.000485），p值高达0.938，是全样本中最不显著的。这暗示快递物流行业的日收益与波动率之间几乎不存在线性关系，股价的日内波动更多是随机噪音或大盘Beta驱动，缺乏独立的风险定价逻辑。<br><br>三、结论：风险的性质大于风险的大小  <br>这组gamma系数将“高风险高回报”这一简单命题分解为复杂的行业光谱。白酒的波动来自供需错配，通讯的波动来自利率预期，银行的波动来自资产质量担忧，新能源的波动来自产业博弈——同样是高波动，市场的定价态度截然不同。对于理性投资者而言，识别自己持有的究竟是“被定价的风险”还是“被惩罚的波动”，远比纠结于波动的绝对数值更为重要。此外，全部十只股票在5%的显著性水平下均未能通过检验，仅有中国移动在10%水平下边缘显著，这也说明在A股日频数据中，线性、对称的风险收益关系可能并非普适规律，需谨慎对待。<br><br><br><br><br></div>
             </div>
         </div>
     </div>
