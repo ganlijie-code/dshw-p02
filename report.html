@@ -19,34 +19,65 @@
             --jp-border-color1: #e0e0e0;
             --jp-content-font-color0: #000000;
             --jp-content-font-color1: #333333;
+            --primary-color: #4a90e2;
+            --secondary-color: #7b68ee;
+            --accent-color: #ff6b6b;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: var(--jp-content-font-family);
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             color: var(--jp-content-font-color0);
-            background-color: var(--jp-layout-color0);
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
         }
 
         .notebook-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 40px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Cell structure */
         .cell {
             display: flex;
             flex-direction: row;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cell-markdown:hover {
+            transform: translateX(4px);
         }
 
         .cell-prompt {
@@ -54,10 +85,11 @@
             width: var(--jp-cell-prompt-width);
             font-family: var(--jp-code-font-family);
             font-size: 12px;
-            padding: 10px 8px 10px 0;
+            padding: 12px 8px 12px 0;
             text-align: right;
             flex-shrink: 0;
             user-select: none;
+            font-weight: 600;
         }
 
         .cell-content {
@@ -70,6 +102,7 @@
         .input-prompt {
             color: var(--jp-input-prompt-color);
             font-weight: bold;
+            text-shadow: 0 0 8px rgba(48, 127, 193, 0.3);
         }
 
         /* Output prompt styling - Jupyter red/orange */
@@ -80,20 +113,40 @@
 
         /* Code cell input area */
         .input-area {
-            background-color: var(--jp-cell-input-bg);
-            border: 1px solid var(--jp-border-color1);
-            border-radius: 2px;
-            padding: 8px 12px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 16px 20px;
             overflow-x: auto;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .input-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .input-area:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
         }
 
         .input-area pre {
             margin: 0;
             font-family: var(--jp-code-font-family);
             font-size: 13px;
-            line-height: 1.4;
+            line-height: 1.6;
             white-space: pre-wrap;
             word-wrap: break-word;
+            color: #2c3e50;
         }
 
         /* Output area */
@@ -105,6 +158,11 @@
             display: flex;
             flex-direction: row;
             margin-top: 4px;
+        }
+
+        /* 导出 HTML 中输出序号栏常为空，但仍占 64px，导致图片相对 input-area 右移一格 */
+        .output-wrapper > .cell-prompt.output-prompt:empty {
+            display: none;
         }
 
         .output-content {
@@ -160,28 +218,6 @@
             overflow-x: auto;
         }
 
-        .output-html table {
-            border-collapse: collapse;
-            font-size: 13px;
-            font-family: var(--jp-content-font-family);
-        }
-
-        .output-html table th,
-        .output-html table td {
-            border: 1px solid #ddd;
-            padding: 6px 10px;
-            text-align: left;
-        }
-
-        .output-html table th {
-            background-color: #f5f5f5;
-            font-weight: 600;
-        }
-
-        .output-html table tr:nth-child(even) {
-            background-color: #fafafa;
-        }
-
         /* Error output */
         .output-error {
             background-color: #fff0f0;
@@ -202,7 +238,12 @@
             font-weight: 600;
             margin: 0.67em 0;
             padding-bottom: 0.3em;
-            border-bottom: 1px solid var(--jp-border-color1);
+            border-bottom: 3px solid transparent;
+            border-image: var(--gradient-primary) 1;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .markdown-cell h2 {
@@ -210,13 +251,16 @@
             font-weight: 600;
             margin: 0.83em 0;
             padding-bottom: 0.3em;
-            border-bottom: 1px solid var(--jp-border-color1);
+            border-bottom: 2px solid transparent;
+            border-image: var(--gradient-secondary) 1;
+            color: var(--secondary-color);
         }
 
         .markdown-cell h3 {
             font-size: 1.25em;
             font-weight: 600;
             margin: 1em 0;
+            color: var(--primary-color);
         }
 
         .markdown-cell h4 {
@@ -240,25 +284,27 @@
 
         .markdown-cell p {
             margin: 0 0 16px 0;
-            line-height: 1.6;
+            line-height: 1.8;
         }
 
         .markdown-cell code {
             font-family: var(--jp-code-font-family);
             font-size: 85%;
-            background-color: rgba(27, 31, 35, 0.05);
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 0.2em 0.6em;
+            border-radius: 6px;
+            border: 1px solid #667eea30;
         }
 
         .markdown-cell pre {
-            background-color: var(--jp-cell-input-bg);
-            border: 1px solid var(--jp-border-color1);
-            border-radius: 3px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
             padding: 16px;
             overflow-x: auto;
             font-size: 85%;
             line-height: 1.45;
+            box-shadow: var(--shadow-sm);
         }
 
         .markdown-cell pre code {
@@ -266,13 +312,17 @@
             padding: 0;
             border-radius: 0;
             font-size: 100%;
+            border: none;
         }
 
         .markdown-cell blockquote {
             margin: 0 0 16px 0;
-            padding: 0 1em;
+            padding: 12px 20px;
             color: #6a737d;
-            border-left: 4px solid #dfe2e5;
+            border-left: 4px solid transparent;
+            border-image: var(--gradient-primary) 1;
+            background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
         .markdown-cell ul,
@@ -286,54 +336,56 @@
         }
 
         .markdown-cell a {
-            color: #0366d6;
+            color: var(--primary-color);
             text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .markdown-cell a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
         }
 
         .markdown-cell a:hover {
-            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        .markdown-cell a:hover::after {
+            width: 100%;
         }
 
         .markdown-cell hr {
             border: 0;
-            border-top: 1px solid var(--jp-border-color1);
+            height: 2px;
+            background: var(--gradient-primary);
             margin: 24px 0;
+            border-radius: 2px;
         }
 
         .markdown-cell img {
             max-width: 100%;
             height: auto;
-        }
-
-        .markdown-cell table {
-            border-collapse: collapse;
-            margin: 0 0 16px 0;
-        }
-
-        .markdown-cell table th,
-        .markdown-cell table td {
-            border: 1px solid #dfe2e5;
-            padding: 6px 13px;
-        }
-
-        .markdown-cell table th {
-            font-weight: 600;
-            background-color: #f6f8fa;
-        }
-
-        .markdown-cell table tr:nth-child(2n) {
-            background-color: #f6f8fa;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
         }
 
         /* Raw cell styling */
         .raw-cell {
-            background-color: var(--jp-layout-color1);
-            border: 1px solid var(--jp-border-color1);
-            border-radius: 2px;
-            padding: 8px 12px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
             font-family: var(--jp-code-font-family);
             font-size: 13px;
             white-space: pre-wrap;
+            box-shadow: var(--shadow-sm);
         }
 
         /* Empty prompt placeholder */
@@ -342,22 +394,284 @@
         }
 
         .export-footer {
-            margin-top: 32px;
-            padding-top: 16px;
-            border-top: 1px solid var(--jp-border-color1);
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 2px solid transparent;
+            border-image: var(--gradient-primary) 1;
             color: #555;
             font-size: 13px;
             text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius);
+            padding: 20px;
         }
 
         .export-footer a {
-            color: #0366d6;
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .export-footer a:hover {
-            text-decoration: underline;
+            color: var(--secondary-color);
+            text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
         }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .notebook-container {
+                padding: 20px;
+            }
+
+            .cell {
+                flex-direction: column;
+            }
+
+            .cell-prompt {
+                width: 100%;
+                text-align: left;
+                padding: 8px 0;
+            }
+        }
+    
+        /* --- report.html layout overrides (content unchanged) --- */
+        .cell-content,
+        .markdown-cell {
+            text-align: left;
+        }
+
+        /* 代码单元无 In[] 栏时，与 Markdown 的 prompt 栏对齐，避免整体偏左 */
+        .cell-code:not(:has(> .cell-prompt.input-prompt)) > .cell-content {
+            margin-left: var(--jp-cell-prompt-width);
+            width: calc(100% - var(--jp-cell-prompt-width));
+        }
+
+        .input-area {
+            width: 100%;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .input-area pre {
+            text-align: left;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .output-content {
+            text-align: left;
+        }
+
+        .output-stream,
+        .output-result pre,
+        .output-content pre {
+            width: 100%;
+            margin: 10px 0;
+            text-align: left;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
+            box-shadow: var(--shadow-sm);
+            tab-size: 4;
+            line-height: 1.65;
+        }
+
+        .output-stderr,
+        .output-error {
+            width: 100%;
+            margin: 10px 0;
+            text-align: left;
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .output-stderr {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #ef4444;
+        }
+
+        .output-error {
+            background: #fff5f5;
+            color: #7f1d1d;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #dc2626;
+        }
+
+        .markdown-cell pre {
+            width: 100%;
+            margin: 12px 0;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .raw-cell {
+            width: 100%;
+            margin: 10px 0;
+            text-align: left;
+            line-height: 1.65;
+        }
+
+        /* Tables & images — centered */
+        .output-result:has(.output-image),
+        .output-result:has(.output-html) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .output-image {
+            margin: 16px auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .markdown-cell img {
+            display: block;
+            margin: 16px auto;
+        }
+
+
+        /* ========== 统一表格（参考 03_01：卡片、浅灰表头、左对齐、首列蓝色）========== */
+        .notebook-container table {
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 24px auto;
+            width: 100%;
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            font-size: 14px;
+            font-family: var(--jp-content-font-family);
+            background: white;
+            border: none !important;
+        }
+
+        .notebook-container table thead tr {
+            background: #f1f5f9;
+            color: var(--jp-content-font-color0);
+        }
+
+        .notebook-container table.assignment-meta-table thead tr {
+            background: var(--gradient-primary);
+            color: #ffffff;
+        }
+
+        .notebook-container table th,
+        .notebook-container table td {
+            border: none !important;
+            padding: 14px 18px;
+            text-align: left !important;
+            transition: background 0.2s ease;
+            vertical-align: middle;
+            line-height: 1.6;
+        }
+
+        .notebook-container table thead th,
+        .notebook-container table thead td {
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: none;
+            letter-spacing: 0;
+            color: #2d3748 !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            background: #f1f5f9;
+        }
+
+        .notebook-container table.assignment-meta-table thead th,
+        .notebook-container table.assignment-meta-table thead td {
+            color: #ffffff !important;
+            background: transparent;
+        }
+
+        .notebook-container table thead th::after {
+            display: none;
+        }
+
+        .notebook-container table tbody th {
+            background: white;
+            color: var(--primary-color) !important;
+            font-weight: 600;
+            border-bottom: 1px solid #e8ecf1 !important;
+        }
+
+        .notebook-container table tbody td {
+            color: #2d3748;
+            border-bottom: 1px solid #e8ecf1 !important;
+            background: white;
+        }
+
+        .notebook-container table tbody tr:last-child td,
+        .notebook-container table tbody tr:last-child th {
+            border-bottom: none !important;
+        }
+
+        .notebook-container table tbody tr:hover td,
+        .notebook-container table tbody tr:hover th {
+            background: #e8f4f8 !important;
+        }
+
+        .notebook-container table.assignment-meta-table tbody tr:hover td,
+        .notebook-container table.assignment-meta-table tbody tr:hover th {
+            background: #eef2ff !important;
+        }
+
+        .notebook-container table tbody td:first-child {
+            font-weight: 600;
+            color: var(--primary-color) !important;
+        }
+
+        .notebook-container table .blank {
+            background: #f1f5f9;
+        }
+
+        .notebook-container table.corr-matrix-table {
+            width: 100%;
+            max-width: 100%;
+            table-layout: fixed;
+        }
+
+        .notebook-container table.corr-matrix-table th,
+        .notebook-container table.corr-matrix-table td {
+            text-align: center !important;
+            padding: 10px 8px;
+            word-break: break-word;
+        }
+
+        .cell-code {
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .cell-code:last-child {
+            border-bottom: none;
+        }
+
+        /* 行内数学符号（CAPM 讨论等） */
+        .markdown-cell .math-i {
+            font-family: 'Cambria Math', 'Latin Modern Math', 'Times New Roman', serif;
+            font-style: italic;
+            letter-spacing: 0.02em;
+        }
+
+        .markdown-cell em.math-p {
+            font-style: italic;
+            font-family: 'Cambria Math', 'Latin Modern Math', 'Times New Roman', serif;
+        }
+
     </style>
 </head>
 <body>
@@ -1423,7 +1737,7 @@ plt.show()
         <div class="cell cell-markdown">
             <div class="cell-prompt prompt-empty">&nbsp;</div>
             <div class="cell-content">
-                <div class="markdown-cell"><h3>CAPM 讨论</h3><br><br>1. 哪些股票 $\hat{\beta}>1$？行业属性与周期—防御分类是否吻合？  <br>答：  <br>$\hat{\beta}$ 大于 1 的样本股共三只：比亚迪（1.26，汽车）、五粮液（1.17，白酒）以及长城汽车（1.05，汽车）。从行业分布看，汽车与白酒板块构成了高 Beta 阵营。这一结果与经典的“周期性 vs 防御性”分类部分吻合、部分背离。汽车属于典型的周期性行业，盈利与宏观经济景气度高度相关，大盘向好时需求扩张、弹性放大，Beta 大于 1 完全符合理论预期。白酒板块则较为复杂：五粮液呈现高 Beta，意味着其在样本期内对市场波动的放大效应甚至强于周期股；而同属白酒的贵州茅台 Beta 仅为 0.89，反而表现出一定的防御特征。这种内部分化说明，高端白酒在近年来已非纯粹的防御品种——机构重仓、金融属性与批价周期使其波动被显著放大，尤其是五粮液这类次高端龙头，在行业库存周期与资金博弈中表现出更强的弹性。因此，不能简单以“消费即防御”一概而论，需结合个股的市场结构与企业周期综合判断。<br><br>2. $\hat{\alpha}$ 是否显著异于零？Alpha 显著意味着什么？  <br>答：  <br>在 5% 的显著性水平下，仅万科 A 的 Alpha 显著异于零（$\hat{\alpha}=-0.0008$，$p=0.0117$）；若放宽至 10% 水平，比亚迪（$\hat{\alpha}=0.0011$，$p=0.064$）可视为边缘显著的正 Alpha。其余八只股票的 Alpha 均未通过显著性检验，说明在扣除市场因子贡献后，不存在统计上可识别的超额收益或亏损。Alpha 显著的经济含义在于：它代表经系统性风险调整后的“真正超额收益”。若 Alpha 显著为正，意味着该股票在相同市场风险暴露下，仍能持续创造跑赢市场的回报，可能暗示市场定价效率不足、存在尚未被挖掘的价值，或公司具备独特的护城河与成长动能。反之，万科 A 的显著负 Alpha 则表明，即便控制了大盘波动，该股在样本期内仍系统性跑输市场，这很难用贝塔风险解释，更多反映的是房地产行业的结构性下行、信用风险溢价上升以及流动性折价——市场对其基本面恶化的定价超越了大盘因子的解释范围。<br><br>3. $R^2$ 最高与最低的股票分别是哪只？如何解释这一差异？    <br>答：  <br>$R^2$ 最高的是五粮液（0.484），其次是贵州茅台（0.432）；最低的是中国移动（0.044），其次为工商银行（0.065）。<br>这一差异的核心在于市场因子对个股收益的解释力强弱，而解释力的背后是公司特质风险与市场风险的相对比重：  <br>- 高 $R^2$（五粮液、茅台）：二者均属大盘核心资产，机构持仓集中、信息透明度高、交易行为与市场情绪高度同步。在 A 股市场，白酒龙头长期作为“抱团”标的，其价格发现过程与沪深 300 的驱动逻辑（宏观流动性、北向资金、消费复苏预期）高度重叠，因此市场单因子即可解释接近一半的日收益波动。<br>- 低 $R^2$（中国移动、工商银行）：工商银行 Beta 仅 0.14，几乎与市场脱钩，其股价波动更多受银行业特有政策（息差调控、隐性不良暴露、分红率预期）主导，而非大盘系统性风险；中国移动虽为巨无霸，但高股息防御定位使其价格行为受利率预期与独立资金配置逻辑驱动，与沪深 300 的联动性被显著削弱。低 $R^2$ 意味着 CAPM 单因子模型对这类股票“失灵”，需要引入行业、风格乃至跨市场因子才能完整刻画其收益结构。  <br>- 中等 $R^2$（比亚迪 0.31、长城汽车 0.23）：新能源赛道受产业政策、技术路线迭代、月度产销数据等行业特有风险驱动较大，市场贝塔仅能解释部分波动，剩余收益变异需由行业因子补充。  <br>综上，$R^2$ 的离散分布揭示了一个重要事实：A 股并非单一市场，不同板块的风险来源与定价逻辑差异显著，简单的市场模型对核心蓝筹尚有解释力，但对政策敏感型与低波动红利型资产则远远不够。</div>
+                <div class="markdown-cell"><h3>CAPM 讨论</h3><br><br>1. 哪些股票 <span class="math-i">β̂</span> &gt; 1？行业属性与周期—防御分类是否吻合？  <br>答：  <br><span class="math-i">β̂</span> 大于 1 的样本股共三只：比亚迪（1.26，汽车）、五粮液（1.17，白酒）以及长城汽车（1.05，汽车）。从行业分布看，汽车与白酒板块构成了高 Beta 阵营。这一结果与经典的“周期性 vs 防御性”分类部分吻合、部分背离。汽车属于典型的周期性行业，盈利与宏观经济景气度高度相关，大盘向好时需求扩张、弹性放大，Beta 大于 1 完全符合理论预期。白酒板块则较为复杂：五粮液呈现高 Beta，意味着其在样本期内对市场波动的放大效应甚至强于周期股；而同属白酒的贵州茅台 Beta 仅为 0.89，反而表现出一定的防御特征。这种内部分化说明，高端白酒在近年来已非纯粹的防御品种——机构重仓、金融属性与批价周期使其波动被显著放大，尤其是五粮液这类次高端龙头，在行业库存周期与资金博弈中表现出更强的弹性。因此，不能简单以“消费即防御”一概而论，需结合个股的市场结构与企业周期综合判断。<br><br>2. <span class="math-i">α̂</span> 是否显著异于零？Alpha 显著意味着什么？  <br>答：  <br>在 5% 的显著性水平下，仅万科 A 的 Alpha 显著异于零（<span class="math-i">α̂</span> = −0.0008，<em class="math-p">p</em> = 0.0117）；若放宽至 10% 水平，比亚迪（<span class="math-i">α̂</span> = 0.0011，<em class="math-p">p</em> = 0.064）可视为边缘显著的正 Alpha。其余八只股票的 Alpha 均未通过显著性检验，说明在扣除市场因子贡献后，不存在统计上可识别的超额收益或亏损。Alpha 显著的经济含义在于：它代表经系统性风险调整后的“真正超额收益”。若 Alpha 显著为正，意味着该股票在相同市场风险暴露下，仍能持续创造跑赢市场的回报，可能暗示市场定价效率不足、存在尚未被挖掘的价值，或公司具备独特的护城河与成长动能。反之，万科 A 的显著负 Alpha 则表明，即便控制了大盘波动，该股在样本期内仍系统性跑输市场，这很难用贝塔风险解释，更多反映的是房地产行业的结构性下行、信用风险溢价上升以及流动性折价——市场对其基本面恶化的定价超越了大盘因子的解释范围。<br><br>3. <span class="math-i">R²</span> 最高与最低的股票分别是哪只？如何解释这一差异？    <br>答：  <br><span class="math-i">R²</span> 最高的是五粮液（0.484），其次是贵州茅台（0.432）；最低的是中国移动（0.044），其次为工商银行（0.065）。<br>这一差异的核心在于市场因子对个股收益的解释力强弱，而解释力的背后是公司特质风险与市场风险的相对比重：  <br>- 高 <span class="math-i">R²</span>（五粮液、茅台）：二者均属大盘核心资产，机构持仓集中、信息透明度高、交易行为与市场情绪高度同步。在 A 股市场，白酒龙头长期作为“抱团”标的，其价格发现过程与沪深 300 的驱动逻辑（宏观流动性、北向资金、消费复苏预期）高度重叠，因此市场单因子即可解释接近一半的日收益波动。<br>- 低 <span class="math-i">R²</span>（中国移动、工商银行）：工商银行 Beta 仅 0.14，几乎与市场脱钩，其股价波动更多受银行业特有政策（息差调控、隐性不良暴露、分红率预期）主导，而非大盘系统性风险；中国移动虽为巨无霸，但高股息防御定位使其价格行为受利率预期与独立资金配置逻辑驱动，与沪深 300 的联动性被显著削弱。低 <span class="math-i">R²</span> 意味着 CAPM 单因子模型对这类股票“失灵”，需要引入行业、风格乃至跨市场因子才能完整刻画其收益结构。  <br>- 中等 <span class="math-i">R²</span>（比亚迪 0.31、长城汽车 0.23）：新能源赛道受产业政策、技术路线迭代、月度产销数据等行业特有风险驱动较大，市场贝塔仅能解释部分波动，剩余收益变异需由行业因子补充。  <br>综上，<span class="math-i">R²</span> 的离散分布揭示了一个重要事实：A 股并非单一市场，不同板块的风险来源与定价逻辑差异显著，简单的市场模型对核心蓝筹尚有解释力，但对政策敏感型与低波动红利型资产则远远不够。</div>
             </div>
         </div>
         <div class="cell cell-markdown">
