@@ -72,6 +72,9 @@ cd dshw-p02
 # 2. 安装依赖
 pip install -r requirements.txt
 
+# 3. 启动 Jupyter 并按顺序运行三个 Notebook
+jupyter notebook
+#  ① 01_download.ipynb  →  ② 02_clean.ipynb  →  ③ 03_analysis.ipynb
 ```
 
 > ⚠️ 运行 `01_download.ipynb` 需联网，约 **3–5 分钟**。
